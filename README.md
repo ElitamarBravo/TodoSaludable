@@ -163,4 +163,5 @@ Todo con el mismo usuario y contraseña de siempre.
 
 `supabase/schema.sql` ya incluye las tablas nuevas (`hoteles`, `lotes`, `park_galeria`) y el bucket de Storage `kalomai` para sus fotos. Si ya ejecutaste el SQL antes, solo necesitas correr de nuevo el archivo completo — los `create table if not exists` no van a duplicar lo que ya tienes.
 #   T o d o S a l u d a b l e  
+ #   T o d o S a l u d a b l e  
  
