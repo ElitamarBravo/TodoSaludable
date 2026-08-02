@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2F4A3C" />
+    <title>Todo Saludable con María Isabel</title>
+    <meta
+      name="description"
+      content="Tienda de productos saludables con asesoría personalizada. Encuentra el apoyo que necesitas para tu bienestar."
+    />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body class="con-sidebar">
+    <div id="sidebar-mount"></div>
+    <div id="aviso-configuracion"></div>
+
+    <header class="encabezado">
+      <div class="encabezado__barra">
+        <a href="/" class="marca">
+          <span class="marca__hoja">🌿</span>
+          <span>Todo Saludable con María Isabel</span>
+        </a>
+        <div class="buscador-header">
+          <span aria-hidden="true">🔍</span>
+          <input
+            id="input-busqueda-header"
+            type="search"
+            placeholder="Buscar por nombre, necesidad o beneficio..."
+            aria-label="Buscar productos"
+          />
+        </div>
+        <div class="acciones-header">
+          <button id="boton-abrir-carrito" class="boton-carrito" aria-haspopup="dialog">
+            🛒 Carrito
+            <span id="contador-carrito" class="boton-carrito__contador">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="contenedor hero__contenido">
+          <div>
+            <span class="hero__eyebrow">🌿 Asesoría personalizada · Bienestar real</span>
+            <h1 class="hero__titulo">Todo Saludable con María Isabel</h1>
+            <p class="hero__frase">
+              Encuentra el apoyo saludable que necesitas con una recomendación
+              personalizada.
+            </p>
+            <div class="hero__botones">
+              <a href="#catalogo" class="boton boton--primario">Ver productos</a>
+              <button id="boton-hero-evaluacion" class="boton boton--secundario">
+                Solicitar evaluación personalizada
+              </button>
+            </div>
+          </div>
+          <div class="hero__retrato">
+            <img
+              id="foto-maria-isabel"
+              src=""
+              alt="María Isabel, asesora de Todo Saludable"
+            />
+            <span class="hero__insignia">Asesora en bienestar</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="seccion" id="necesidades">
+        <div class="contenedor">
+          <div class="seccion__cabecera">
+            <h2 class="seccion__titulo">¿Qué te gustaría mejorar?</h2>
+            <p class="seccion__subtitulo">
+              Elige lo que buscas y te mostramos los productos pensados para eso.
+            </p>
+          </div>
+          <div id="rueda-necesidades" class="rueda-necesidades"></div>
+        </div>
+      </section>
+
+      <section class="seccion seccion--alterna">
+        <div class="contenedor">
+          <div class="evaluacion">
+            <div>
+              <h2>¿No sabes qué producto necesitas?</h2>
+              <p>
+                Cada persona tiene necesidades diferentes. María Isabel realiza
+                una orientación personalizada para ayudarte a encontrar los
+                productos más adecuados según lo que buscas mejorar.
+              </p>
+            </div>
+            <button id="boton-evaluacion" class="boton boton--whatsapp boton--bloque">
+              Hablar con María Isabel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="seccion" id="catalogo">
+        <div class="contenedor">
+          <div class="seccion__cabecera">
+            <h2 class="seccion__titulo" id="titulo-catalogo">Nuestros productos</h2>
+            <p class="seccion__subtitulo" id="subtitulo-catalogo">
+              Explora todo el catálogo o filtra por lo que buscas mejorar.
+            </p>
+          </div>
+          <div class="barra-catalogo" id="barra-filtros"></div>
+          <div id="grid-productos" class="grid-productos"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <div class="contenedor">
+        <div class="pie__marca">🌿 Todo Saludable con María Isabel</div>
+        <p>Confianza, salud y bienestar con atención personalizada.</p>
+        <p class="pie__nota">
+          © <span id="anio-actual"></span> Todo Saludable con María Isabel. Todos
+          los derechos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <div id="panel-carrito-fondo" class="panel-carrito__fondo"></div>
+    <aside id="panel-carrito" class="panel-carrito" role="dialog" aria-label="Carrito de compras">
+      <div class="panel-carrito__cabecera">
+        <h2>Tu carrito</h2>
+        <button id="boton-cerrar-carrito" class="boton-cerrar-panel" aria-label="Cerrar carrito">
+          ✕
+        </button>
+      </div>
+      <div id="lista-carrito" class="panel-carrito__lista"></div>
+      <div class="panel-carrito__pie">
+        <div class="panel-carrito__total">
+          <span>Total</span>
+          <span id="total-carrito">Bs. 0.00</span>
+        </div>
+        <button id="boton-enviar-pedido" class="boton boton--whatsapp boton--bloque">
+          Enviar pedido por WhatsApp
+        </button>
+      </div>
+    </aside>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2F4A3C" />
+    <title>Producto · Todo Saludable con María Isabel</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="/src/producto.ts"></script>
+  </head>
+  <body class="con-sidebar">
+    <div id="sidebar-mount"></div>
+    <header class="encabezado">
+      <div class="encabezado__barra">
+        <a href="/" class="marca">
+          <span class="marca__hoja">🌿</span>
+          <span>Todo Saludable con María Isabel</span>
+        </a>
+        <div class="buscador-header">
+          <span aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            placeholder="Buscar productos..."
+            aria-label="Buscar productos"
+            onfocus="window.location.href='/'"
+          />
+        </div>
+        <div class="acciones-header">
+          <button id="boton-abrir-carrito" class="boton-carrito" aria-haspopup="dialog">
+            🛒 Carrito
+            <span id="contador-carrito" class="boton-carrito__contador">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="contenedor">
+      <div id="contenido-producto"></div>
+    </main>
+
+    <footer class="pie">
+      <div class="contenedor">
+        <div class="pie__marca">🌿 Todo Saludable con María Isabel</div>
+        <p>Confianza, salud y bienestar con atención personalizada.</p>
+      </div>
+    </footer>
+
+    <div id="panel-carrito-fondo" class="panel-carrito__fondo"></div>
+    <aside id="panel-carrito" class="panel-carrito" role="dialog" aria-label="Carrito de compras">
+      <div class="panel-carrito__cabecera">
+        <h2>Tu carrito</h2>
+        <button id="boton-cerrar-carrito" class="boton-cerrar-panel" aria-label="Cerrar carrito">
+          ✕
+        </button>
+      </div>
+      <div id="lista-carrito" class="panel-carrito__lista"></div>
+      <div class="panel-carrito__pie">
+        <div class="panel-carrito__total">
+          <span>Total</span>
+          <span id="total-carrito">Bs. 0.00</span>
+        </div>
+        <button id="boton-enviar-pedido" class="boton boton--whatsapp boton--bloque">
+          Enviar pedido por WhatsApp
+        </button>
+      </div>
+    </aside>
+  </body>
+</html>

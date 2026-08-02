@@ -1,0 +1,19 @@
+{
+  "name": "todo-saludable-maria-isabel",
+  "version": "1.0.0",
+  "description": "Tienda digital y plataforma de asesoria personalizada - Todo Saludable con Maria Isabel",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}

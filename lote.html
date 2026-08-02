@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2F4A3C" />
+    <title>Lote · Bienes y Raíces Kalomai</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="/src/lote.ts"></script>
+  </head>
+  <body class="con-sidebar">
+    <div id="sidebar-mount"></div>
+
+    <div class="encabezado" style="position: sticky; top: 0; z-index: 40;">
+      <div class="encabezado__barra" style="justify-content: flex-end;">
+        <button id="boton-abrir-carrito-lotes" class="boton-carrito" aria-haspopup="dialog">
+          🏞️ Lotes de interés
+          <span id="contador-carrito-lotes" class="boton-carrito__contador">0</span>
+        </button>
+      </div>
+    </div>
+
+    <main class="contenedor">
+      <div id="contenido-lote" style="padding: 40px 0 80px"></div>
+    </main>
+
+    <footer class="pie">
+      <div class="contenedor"><div class="pie__marca">🏞️ Bienes y Raíces</div></div>
+    </footer>
+
+    <div id="panel-carrito-lotes-fondo" class="panel-carrito__fondo"></div>
+    <aside id="panel-carrito-lotes" class="panel-carrito" role="dialog" aria-label="Lotes de interés">
+      <div class="panel-carrito__cabecera">
+        <h2>Lotes de interés</h2>
+        <button id="boton-cerrar-carrito-lotes" class="boton-cerrar-panel" aria-label="Cerrar">✕</button>
+      </div>
+      <div id="lista-carrito-lotes" class="panel-carrito__lista"></div>
+      <div class="panel-carrito__pie">
+        <div class="panel-carrito__total">
+          <span>Total</span>
+          <span id="total-carrito-lotes">Bs. 0.00</span>
+        </div>
+        <button id="boton-enviar-pedido-lotes" class="boton boton--whatsapp boton--bloque">
+          Consultar por WhatsApp
+        </button>
+      </div>
+    </aside>
+  </body>
+</html>

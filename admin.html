@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2F4A3C" />
+    <title>Panel de administración · Todo Saludable</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="/src/admin.ts"></script>
+    <style>
+      .admin-envoltura {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+      .admin-login {
+        max-width: 380px;
+        margin: 80px auto;
+        background: var(--blanco);
+        border: 1px solid var(--borde);
+        border-radius: var(--radio);
+        padding: 32px;
+        box-shadow: var(--sombra-suave);
+      }
+      .admin-login input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--borde);
+        border-radius: var(--radio-chico);
+        margin-bottom: 12px;
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+      .admin-cabecera {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+      .admin-tabla {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--blanco);
+        border-radius: var(--radio);
+        overflow: hidden;
+        box-shadow: var(--sombra-suave);
+      }
+      .admin-tabla th,
+      .admin-tabla td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--borde);
+        font-size: 0.9rem;
+      }
+      .admin-tabla img {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .admin-form {
+        background: var(--blanco);
+        border: 1px solid var(--borde);
+        border-radius: var(--radio);
+        padding: 28px;
+        margin-bottom: 32px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .admin-form label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--texto-suave);
+      }
+      .admin-form input,
+      .admin-form select,
+      .admin-form textarea {
+        font-family: inherit;
+        padding: 10px 12px;
+        border: 1px solid var(--borde);
+        border-radius: var(--radio-chico);
+        font-size: 0.9rem;
+      }
+      .admin-form .col-completa {
+        grid-column: 1 / -1;
+      }
+      .admin-acciones-fila {
+        display: flex;
+        gap: 8px;
+      }
+      .admin-acciones-fila button {
+        background: none;
+        border: 1px solid var(--borde);
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+      .admin-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--borde);
+        padding-bottom: 14px;
+      }
+      .admin-tab {
+        background: var(--beige);
+        border: 1px solid var(--borde);
+        border-radius: 999px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--texto-suave);
+      }
+      .admin-tab.activa {
+        background: var(--verde-bosque);
+        color: var(--crema);
+        border-color: var(--verde-bosque);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="encabezado">
+      <div class="encabezado__barra">
+        <a href="/" class="marca">
+          <span class="marca__hoja">🌿</span>
+          <span>Panel de administración</span>
+        </a>
+        <button id="boton-cerrar-sesion" class="boton boton--secundario" style="display:none">
+          Cerrar sesión
+        </button>
+      </div>
+    </header>
+
+    <div id="vista-login" class="admin-login">
+      <h2 style="margin-bottom:18px">Iniciar sesión</h2>
+      <form id="form-login">
+        <input type="email" id="login-email" placeholder="Correo" required />
+        <input type="password" id="login-password" placeholder="Contraseña" required />
+        <button type="submit" class="boton boton--primario boton--bloque">Entrar</button>
+        <p id="login-error" style="color:#b23b3b;font-size:0.85rem;margin-top:10px"></p>
+      </form>
+    </div>
+
+    <div id="vista-admin" class="admin-envoltura" style="display:none">
+      <div class="admin-cabecera">
+        <h1 style="font-size:1.6rem">Panel de administración</h1>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab activa" data-tab="productos">🌿 Productos saludables</button>
+        <button class="admin-tab" data-tab="hoteles">✈️ Hoteles / Resort</button>
+        <button class="admin-tab" data-tab="lotes">🏞️ Lotes</button>
+        <button class="admin-tab" data-tab="park">🎡 Galería Park</button>
+      </div>
+
+      <section id="panel-tab-productos" class="admin-panel-tab">
+      <div class="admin-cabecera">
+        <h2 style="font-size:1.2rem">Productos</h2>
+        <button id="boton-nuevo-producto" class="boton boton--primario">
+          + Nuevo producto
+        </button>
+      </div>
+
+      <form id="form-producto" class="admin-form" style="display:none">
+        <input type="hidden" id="producto-id" />
+        <label class="col-completa">
+          Nombre
+          <input type="text" id="campo-nombre" required />
+        </label>
+        <label>
+          Precio (Bs.)
+          <input type="number" step="0.01" id="campo-precio" required />
+        </label>
+        <label>
+          Stock
+          <input type="number" id="campo-stock" required />
+        </label>
+        <label>
+          Categoría
+          <input type="text" id="campo-categoria" required />
+        </label>
+        <label>
+          Presentación
+          <input type="text" id="campo-presentacion" placeholder="Frasco, caja, sobre..." />
+        </label>
+        <label>
+          Tamaño
+          <input type="text" id="campo-tamano" placeholder="500 mg x 60 cápsulas" />
+        </label>
+        <label class="col-completa">
+          Necesidades relacionadas (separadas por coma)
+          <input
+            type="text"
+            id="campo-necesidades"
+            placeholder="huesos-articulaciones, belleza-piel-vitalidad"
+          />
+        </label>
+        <label class="col-completa">
+          Descripción
+          <textarea id="campo-descripcion" rows="3" required></textarea>
+        </label>
+        <label class="col-completa">
+          Beneficios (uno por línea)
+          <textarea id="campo-beneficios" rows="3"></textarea>
+        </label>
+        <label class="col-completa">
+          Forma de uso
+          <textarea id="campo-modo-uso" rows="2"></textarea>
+        </label>
+        <label>
+          Imagen frontal
+          <input type="file" id="campo-imagen-frontal" accept="image/*" />
+        </label>
+        <label>
+          Imagen posterior
+          <input type="file" id="campo-imagen-posterior" accept="image/*" />
+        </label>
+        <label>
+          Activo
+          <select id="campo-activo">
+            <option value="true">Sí, visible en la tienda</option>
+            <option value="false">No, oculto</option>
+          </select>
+        </label>
+        <div class="col-completa admin-acciones-fila">
+          <button type="submit" class="boton boton--primario">Guardar producto</button>
+          <button type="button" id="boton-cancelar-form" class="boton boton--secundario">
+            Cancelar
+          </button>
+        </div>
+        <p id="form-error" class="col-completa" style="color:#b23b3b;font-size:0.85rem"></p>
+      </form>
+
+      <table class="admin-tabla">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo-tabla-productos"></tbody>
+      </table>
+      </section>
+
+      <section id="panel-tab-hoteles" class="admin-panel-tab" style="display:none">
+        <div class="admin-cabecera">
+          <h2 style="font-size:1.2rem">Hoteles y Resort (Kalomai Travel)</h2>
+          <button id="boton-nuevo-hotel" class="boton boton--primario">+ Nuevo hospedaje</button>
+        </div>
+
+        <form id="form-hotel" class="admin-form" style="display:none">
+          <input type="hidden" id="hotel-id" />
+          <label class="col-completa">
+            Nombre
+            <input type="text" id="hotel-nombre" required />
+          </label>
+          <label>
+            Tipo
+            <select id="hotel-tipo">
+              <option value="hotel">Kalomai Travel (hotel)</option>
+              <option value="resort">Kalomai Resort</option>
+            </select>
+          </label>
+          <label>
+            Ubicación
+            <input type="text" id="hotel-ubicacion" placeholder="Ciudad, país" required />
+          </label>
+          <label class="col-completa">
+            Descripción
+            <textarea id="hotel-descripcion" rows="3" required></textarea>
+          </label>
+          <label>
+            Fotos (hasta 4, puedes seleccionar varias a la vez)
+            <input type="file" id="hotel-fotos" accept="image/*" multiple />
+          </label>
+          <label>
+            Activo
+            <select id="hotel-activo">
+              <option value="true">Sí, visible</option>
+              <option value="false">No, oculto</option>
+            </select>
+          </label>
+          <div class="col-completa admin-acciones-fila">
+            <button type="submit" class="boton boton--primario">Guardar hospedaje</button>
+            <button type="button" id="boton-cancelar-form-hotel" class="boton boton--secundario">Cancelar</button>
+          </div>
+          <p id="form-hotel-error" class="col-completa" style="color:#b23b3b;font-size:0.85rem"></p>
+        </form>
+
+        <table class="admin-tabla">
+          <thead>
+            <tr><th>Imagen</th><th>Nombre</th><th>Tipo</th><th>Ubicación</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="cuerpo-tabla-hoteles"></tbody>
+        </table>
+      </section>
+
+      <section id="panel-tab-lotes" class="admin-panel-tab" style="display:none">
+        <div class="admin-cabecera">
+          <h2 style="font-size:1.2rem">Lotes (Bienes y Raíces)</h2>
+          <button id="boton-nuevo-lote" class="boton boton--primario">+ Nuevo lote</button>
+        </div>
+
+        <form id="form-lote" class="admin-form" style="display:none">
+          <input type="hidden" id="lote-id" />
+          <label class="col-completa">
+            Nombre
+            <input type="text" id="lote-nombre" required />
+          </label>
+          <label>
+            Precio (Bs.)
+            <input type="number" step="0.01" id="lote-precio" required />
+          </label>
+          <label>
+            Ubicación
+            <input type="text" id="lote-ubicacion" required />
+          </label>
+          <label class="col-completa">
+            Descripción
+            <textarea id="lote-descripcion" rows="3" required></textarea>
+          </label>
+          <label>
+            Fotos (puedes seleccionar varias)
+            <input type="file" id="lote-fotos" accept="image/*" multiple />
+          </label>
+          <label>
+            Disponible
+            <select id="lote-disponible">
+              <option value="true">Sí</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+          <label>
+            Activo (visible en la tienda)
+            <select id="lote-activo">
+              <option value="true">Sí</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+          <div class="col-completa admin-acciones-fila">
+            <button type="submit" class="boton boton--primario">Guardar lote</button>
+            <button type="button" id="boton-cancelar-form-lote" class="boton boton--secundario">Cancelar</button>
+          </div>
+          <p id="form-lote-error" class="col-completa" style="color:#b23b3b;font-size:0.85rem"></p>
+        </form>
+
+        <table class="admin-tabla">
+          <thead>
+            <tr><th>Imagen</th><th>Nombre</th><th>Precio</th><th>Ubicación</th><th>Disponible</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="cuerpo-tabla-lotes"></tbody>
+        </table>
+      </section>
+
+      <section id="panel-tab-park" class="admin-panel-tab" style="display:none">
+        <div class="admin-cabecera">
+          <h2 style="font-size:1.2rem">Galería de Kalomai Park</h2>
+          <button id="boton-nueva-foto-park" class="boton boton--primario">+ Nueva foto</button>
+        </div>
+
+        <form id="form-foto-park" class="admin-form" style="display:none">
+          <input type="hidden" id="park-id" />
+          <label>
+            Foto
+            <input type="file" id="park-imagen" accept="image/*" />
+          </label>
+          <label>
+            Orden (número, menor aparece primero)
+            <input type="number" id="park-orden" value="1" />
+          </label>
+          <label class="col-completa">
+            Descripción (opcional)
+            <input type="text" id="park-descripcion" placeholder="Texto alternativo de la foto" />
+          </label>
+          <div class="col-completa admin-acciones-fila">
+            <button type="submit" class="boton boton--primario">Guardar foto</button>
+            <button type="button" id="boton-cancelar-form-park" class="boton boton--secundario">Cancelar</button>
+          </div>
+          <p id="form-park-error" class="col-completa" style="color:#b23b3b;font-size:0.85rem"></p>
+        </form>
+
+        <table class="admin-tabla">
+          <thead><tr><th>Imagen</th><th>Descripción</th><th>Orden</th><th>Acciones</th></tr></thead>
+          <tbody id="cuerpo-tabla-park"></tbody>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>
