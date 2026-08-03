@@ -93,7 +93,7 @@
         display: flex;
         gap: 8px;
       }
-      .admin-acciones-fila button {
+          .admin-acciones-fila button:not(.boton) {
         background: none;
         border: 1px solid var(--borde);
         border-radius: 8px;
@@ -131,9 +131,12 @@
           <span class="marca__hoja">🌿</span>
           <span>Panel de administración</span>
         </a>
-        <button id="boton-cerrar-sesion" class="boton boton--secundario" style="display:none">
-          Cerrar sesión
-        </button>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <a href="/" class="boton boton--secundario">← Volver al sitio</a>
+          <button id="boton-cerrar-sesion" class="boton boton--secundario" style="display:none">
+            Cerrar sesión
+          </button>
+        </div>
       </div>
     </header>
 
@@ -181,26 +184,62 @@
           Stock
           <input type="number" id="campo-stock" required />
         </label>
-        <label>
+             <label>
           Categoría
-          <input type="text" id="campo-categoria" required />
+          <input type="text" id="campo-categoria" list="lista-categorias" required />
+          <datalist id="lista-categorias">
+            <option value="Colágenos"></option>
+            <option value="Vitaminas"></option>
+            <option value="Probióticos y Fibras"></option>
+            <option value="Belleza y Piel"></option>
+            <option value="Minerales"></option>
+            <option value="Bienestar general"></option>
+          </datalist>
         </label>
-        <label>
+             <label>
           Presentación
-          <input type="text" id="campo-presentacion" placeholder="Frasco, caja, sobre..." />
+          <input type="text" id="campo-presentacion" list="lista-presentaciones" placeholder="Frasco, caja, sobre..." />
+          <datalist id="lista-presentaciones">
+            <option value="Frasco en polvo"></option>
+            <option value="Frasco en cápsulas"></option>
+            <option value="Frasco en tabletas"></option>
+            <option value="Frasco líquido"></option>
+            <option value="Caja en polvo"></option>
+            <option value="Sobre"></option>
+          </datalist>
         </label>
         <label>
           Tamaño
           <input type="text" id="campo-tamano" placeholder="500 mg x 60 cápsulas" />
         </label>
-        <label class="col-completa">
-          Necesidades relacionadas (separadas por coma)
-          <input
-            type="text"
-            id="campo-necesidades"
-            placeholder="huesos-articulaciones, belleza-piel-vitalidad"
-          />
-        </label>
+              <fieldset class="col-completa" style="border:none;padding:0;margin:0">
+          <legend style="font-size:0.85rem;font-weight:700;color:var(--texto-suave);margin-bottom:8px">
+            Necesidades relacionadas
+          </legend>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 20px">
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="bienestar-general" /> 🌿 Bienestar general
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="huesos-articulaciones" /> 🦴 Huesos, articulaciones y movilidad
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="belleza-piel-vitalidad" /> ✨ Belleza, piel y vitalidad
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="cerebro-memoria-energia" /> 🧠 Cerebro, memoria y energía
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="digestion-interna" /> 🩺 Digestión y bienestar interno
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="vitaminas-fortalecimiento" /> 💪 Vitaminas y fortalecimiento
+            </label>
+            <label style="flex-direction:row;align-items:center;gap:6px;font-weight:400">
+              <input type="checkbox" class="check-necesidad" value="control-corporal" /> ⚖️ Control y bienestar corporal
+            </label>
+          </div>
+        </fieldset>
         <label class="col-completa">
           Descripción
           <textarea id="campo-descripcion" rows="3" required></textarea>
@@ -209,7 +248,7 @@
           Beneficios (uno por línea)
           <textarea id="campo-beneficios" rows="3"></textarea>
         </label>
-        <label class="col-completa">
+<label class="col-completa">
           Forma de uso
           <textarea id="campo-modo-uso" rows="2"></textarea>
         </label>

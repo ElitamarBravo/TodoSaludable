@@ -1,6 +1,9 @@
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import { resolve } from "path";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
   resolve: {
@@ -28,6 +31,9 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "icons/*.png"],
+      workbox: {
+        navigateFallback: null,
+      },
       manifest: {
         name: "Todo Saludable con María Isabel",
         short_name: "Todo Saludable",

@@ -1164,7 +1164,16 @@ body.con-sidebar {
   height: 100%;
   object-fit: cover;
 }
+.galeria-grupo {
+  margin-bottom: 36px;
+}
 
+.galeria-grupo__titulo {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--borde);
+}
 .cta-membresia {
   text-align: center;
   margin-top: 40px;

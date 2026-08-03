@@ -1,7 +1,7 @@
 import "@/style.css";
 import { supabase, BUCKET_PRODUCTOS, BUCKET_KALOMAI, urlPublicaStorage } from "@/lib/supabaseClient";
 import { normalizarProducto, formatearPrecio } from "@/lib/necesidades";
-import type { Producto, ProductoRow, HotelRow, LoteRow, FotoPark } from "@/lib/types";
+import type { Producto, ProductoRow, HotelRow, LoteRow, FotoPark, NecesidadId } from "@/lib/types";
 
 async function subirArchivo(
   archivo: File,
@@ -105,7 +105,7 @@ const campos = {
   categoria: document.getElementById("campo-categoria") as HTMLInputElement,
   presentacion: document.getElementById("campo-presentacion") as HTMLInputElement,
   tamano: document.getElementById("campo-tamano") as HTMLInputElement,
-  necesidades: document.getElementById("campo-necesidades") as HTMLInputElement,
+  // "necesidades" se lee directo de las casillas marcadas (.check-necesidad), no de un input de texto
   descripcion: document.getElementById("campo-descripcion") as HTMLTextAreaElement,
   beneficios: document.getElementById("campo-beneficios") as HTMLTextAreaElement,
   modoUso: document.getElementById("campo-modo-uso") as HTMLTextAreaElement,
@@ -119,6 +119,7 @@ let urlPosteriorExistente = "";
 
 botonNuevo.addEventListener("click", () => {
   formProducto.reset();
+  document.querySelectorAll<HTMLInputElement>(".check-necesidad").forEach((c) => (c.checked = false));
   campos.id.value = "";
   urlFrontalExistente = "";
   urlPosteriorExistente = "";
@@ -168,10 +169,9 @@ formProducto.addEventListener("submit", async (e) => {
       throw new Error("La imagen frontal es obligatoria.");
     }
 
-    const necesidades = campos.necesidades.value
-      .split(",")
-      .map((v) => v.trim())
-      .filter(Boolean);
+    const necesidades = Array.from(
+      document.querySelectorAll<HTMLInputElement>(".check-necesidad:checked")
+    ).map((c) => c.value);
 
     const beneficios = campos.beneficios.value
       .split("\n")
@@ -275,7 +275,9 @@ function editarProducto(p: Producto) {
   campos.categoria.value = p.categoria;
   campos.presentacion.value = p.presentacion;
   campos.tamano.value = p.tamano;
-  campos.necesidades.value = p.necesidades.join(", ");
+  document.querySelectorAll<HTMLInputElement>(".check-necesidad").forEach((c) => {
+    c.checked = p.necesidades.includes(c.value as NecesidadId);
+  });
   campos.descripcion.value = p.descripcion;
   campos.beneficios.value = p.beneficios.join("\n");
   campos.modoUso.value = p.modo_uso;
