@@ -29,7 +29,15 @@ async function subirVariasImagenes(
   }
   return urls;
 }
-
+function nombreDeCarpetaSeguro(texto: string): string {
+  return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // quita tildes (á → a, ñ → n, etc.)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-") // cualquier otro símbolo se vuelve guion
+    .replace(/^-+|-+$/g, "") || "general";
+}
 // -------------------- Pestañas --------------------
 document.querySelectorAll<HTMLButtonElement>(".admin-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -153,8 +161,7 @@ formProducto.addEventListener("submit", async (e) => {
   botonGuardar.textContent = "Guardando...";
 
   try {
-    const carpeta = campos.categoria.value.trim().toLowerCase().replace(/\s+/g, "-") || "general";
-
+const carpeta = nombreDeCarpetaSeguro(campos.categoria.value);
     let imagenFrontalUrl = urlFrontalExistente;
     if (campos.imagenFrontal.files?.[0]) {
       imagenFrontalUrl = await subirImagen(campos.imagenFrontal.files[0], carpeta);

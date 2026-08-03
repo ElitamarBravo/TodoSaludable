@@ -21,8 +21,11 @@ async function iniciar() {
   }
 
   contenedor.innerHTML = `<div class="spinner"></div>`;
-  const producto = await obtenerProductoPorId(id);
+console.log("ID recibido:", id);
 
+const producto = await obtenerProductoPorId(id);
+
+console.log("Producto:", producto);
   if (!producto) {
     contenedor.innerHTML = `<p class="estado-vacio">No pudimos encontrar este producto. <a href="/">Volver al catálogo</a></p>`;
     return;
