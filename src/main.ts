@@ -126,6 +126,7 @@ function renderProductos(productos: Producto[]) {
   productos.forEach((p) => {
     const tarjeta = document.createElement("a");
     tarjeta.className = "tarjeta-producto";
+     tarjeta.href = `/producto.html?id=${p.id}`;
     const sinStock = p.stock <= 0;
     tarjeta.innerHTML = `
       <div class="tarjeta-producto__imagen">
