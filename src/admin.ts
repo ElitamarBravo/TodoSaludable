@@ -29,6 +29,52 @@ async function subirVariasImagenes(
   }
   return urls;
 }
+// Dibuja las miniaturas de las fotos ya subidas, con botón para eliminar
+// cada una y para marcarla como portada (la primera foto del arreglo es
+// siempre la que se muestra como portada en la tienda).
+function renderizarMiniaturas(
+  contenedorId: string,
+  fotos: string[],
+  onCambio: (nuevasFotos: string[]) => void
+) {
+  const contenedor = document.getElementById(contenedorId);
+  if (!contenedor) return;
+
+  if (fotos.length === 0) {
+    contenedor.innerHTML = `<p style="font-size:0.8rem;color:var(--texto-suave)">Todavía no hay fotos subidas.</p>`;
+    return;
+  }
+
+  contenedor.innerHTML = fotos
+    .map(
+      (url, i) => `
+      <div class="miniatura-admin ${i === 0 ? "es-portada" : ""}">
+        <img src="${url}" alt="Foto ${i + 1}" />
+        ${i === 0 ? '<span class="miniatura-admin__etiqueta">Portada</span>' : ""}
+        <div class="miniatura-admin__acciones">
+          ${i !== 0 ? `<button type="button" data-i="${i}" data-accion="portada">★ Portada</button>` : ""}
+          <button type="button" data-i="${i}" data-accion="quitar">✕ Quitar</button>
+        </div>
+      </div>`
+    )
+    .join("");
+
+  contenedor.querySelectorAll<HTMLButtonElement>('[data-accion="quitar"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const i = Number(btn.dataset.i);
+      const nuevas = fotos.filter((_, idx) => idx !== i);
+      onCambio(nuevas);
+    });
+  });
+
+  contenedor.querySelectorAll<HTMLButtonElement>('[data-accion="portada"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const i = Number(btn.dataset.i);
+      const nuevas = [fotos[i], ...fotos.filter((_, idx) => idx !== i)];
+      onCambio(nuevas);
+    });
+  });
+}
 function nombreDeCarpetaSeguro(texto: string): string {
   return texto
     .normalize("NFD")
@@ -316,7 +362,7 @@ async function eliminarProducto(p: Producto) {
 const formHotel = document.getElementById("form-hotel") as HTMLFormElement;
 const botonNuevoHotel = document.getElementById("boton-nuevo-hotel")!;
 const cuerpoTablaHoteles = document.getElementById("cuerpo-tabla-hoteles")!;
-
+const listaFotosHotel = document.getElementById("hotel-fotos-lista")!;
 const camposHotel = {
   id: document.getElementById("hotel-id") as HTMLInputElement,
   nombre: document.getElementById("hotel-nombre") as HTMLInputElement,
@@ -329,10 +375,18 @@ const camposHotel = {
 
 let fotosHotelExistentes: string[] = [];
 
+function actualizarMiniaturasHotel() {
+  renderizarMiniaturas("miniaturas-hotel-existentes", fotosHotelExistentes, (nuevas) => {
+    fotosHotelExistentes = nuevas;
+    actualizarMiniaturasHotel();
+  });
+}
+
 botonNuevoHotel.addEventListener("click", () => {
   formHotel.reset();
   camposHotel.id.value = "";
   fotosHotelExistentes = [];
+  actualizarMiniaturasHotel();
   document.getElementById("form-hotel-error")!.textContent = "";
   formHotel.style.display = "grid";
 });
@@ -431,7 +485,8 @@ async function cargarHoteles() {
       camposHotel.descripcion.value = h.descripcion;
       camposHotel.activo.value = String(h.activo);
       fotosHotelExistentes = fotos;
-      document.getElementById("form-hotel-error")!.textContent = "";
+      actualizarMiniaturasHotel();
+            document.getElementById("form-hotel-error")!.textContent = "";
       formHotel.style.display = "grid";
       formHotel.scrollIntoView({ behavior: "smooth" });
     });
@@ -465,10 +520,18 @@ const camposLote = {
 
 let fotosLoteExistentes: string[] = [];
 
+function actualizarMiniaturasLote() {
+  renderizarMiniaturas("miniaturas-lote-existentes", fotosLoteExistentes, (nuevas) => {
+    fotosLoteExistentes = nuevas;
+    actualizarMiniaturasLote();
+  });
+}
+
 botonNuevoLote.addEventListener("click", () => {
   formLote.reset();
   camposLote.id.value = "";
   fotosLoteExistentes = [];
+  actualizarMiniaturasLote();
   document.getElementById("form-lote-error")!.textContent = "";
   formLote.style.display = "grid";
 });
@@ -562,8 +625,9 @@ async function cargarLotes() {
       camposLote.descripcion.value = l.descripcion;
       camposLote.disponible.value = String(l.disponible);
       camposLote.activo.value = String(l.activo);
-      fotosLoteExistentes = fotos;
-      document.getElementById("form-lote-error")!.textContent = "";
+fotosLoteExistentes = fotos;
+      actualizarMiniaturasLote();
+            document.getElementById("form-lote-error")!.textContent = "";
       formLote.style.display = "grid";
       formLote.scrollIntoView({ behavior: "smooth" });
     });

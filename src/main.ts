@@ -73,23 +73,47 @@ const inputBusqueda = document.getElementById(
 ) as HTMLInputElement | null;
 
 let todosLosProductos: Producto[] = [];
-let necesidadActiva: NecesidadId | null = null;
+let categoriaActiva: string | null = null;
 
-function renderChipsFiltro() {
+function categoriasUnicas(): string[] {
+  const set = new Set(
+    todosLosProductos.map((p) => p.categoria).filter((c) => c && c.trim())
+  );
+  return Array.from(set).sort((a, b) => a.localeCompare(b, "es"));
+}
+
+function renderChipsCategoria() {
   barraFiltros.innerHTML = "";
   const chipTodos = document.createElement("button");
-  chipTodos.className = `chip-filtro ${necesidadActiva === null ? "activo" : ""}`;
+  chipTodos.className = `chip-filtro ${categoriaActiva === null ? "activo" : ""}`;
   chipTodos.textContent = "Todos";
-  chipTodos.addEventListener("click", () => filtrarPorNecesidad(null));
+  chipTodos.addEventListener("click", () => filtrarPorCategoria(null));
   barraFiltros.appendChild(chipTodos);
 
-  NECESIDADES.forEach((n) => {
+  categoriasUnicas().forEach((categoria) => {
     const chip = document.createElement("button");
-    chip.className = `chip-filtro ${necesidadActiva === n.id ? "activo" : ""}`;
-    chip.textContent = `${n.icono} ${n.nombre}`;
-    chip.addEventListener("click", () => filtrarPorNecesidad(n.id));
+    chip.className = `chip-filtro ${categoriaActiva === categoria ? "activo" : ""}`;
+    chip.textContent = categoria;
+    chip.addEventListener("click", () => filtrarPorCategoria(categoria));
     barraFiltros.appendChild(chip);
   });
+}
+
+function filtrarPorCategoria(categoria: string | null) {
+  categoriaActiva = categoria;
+  renderChipsCategoria();
+  if (inputBusqueda) inputBusqueda.value = "";
+
+  if (categoria === null) {
+    tituloCatalogo.textContent = "Nuestros productos";
+    subtituloCatalogo.textContent = "Explora todo el catálogo o filtra por categoría.";
+    renderProductos(todosLosProductos);
+    return;
+  }
+
+  tituloCatalogo.textContent = categoria;
+  subtituloCatalogo.textContent = `Productos de la categoría "${categoria}".`;
+  renderProductos(todosLosProductos.filter((p) => p.categoria === categoria));
 }
 
 function renderProductos(productos: Producto[]) {
@@ -103,7 +127,6 @@ function renderProductos(productos: Producto[]) {
   productos.forEach((p) => {
     const tarjeta = document.createElement("a");
     tarjeta.className = "tarjeta-producto";
-    tarjeta.href = `/producto.html?id=${p.id}`;
     const sinStock = p.stock <= 0;
     tarjeta.innerHTML = `
       <div class="tarjeta-producto__imagen">
@@ -112,10 +135,10 @@ function renderProductos(productos: Producto[]) {
       <div class="tarjeta-producto__cuerpo">
         <span class="tarjeta-producto__categoria">${p.categoria}</span>
         <h3 class="tarjeta-producto__nombre">${p.nombre}</h3>
-        <span class="tarjeta-producto__precio">${formatearPrecio(p.precio)}</span>
-        <span class="tarjeta-producto__stock ${sinStock ? "agotado" : ""}">
+              <span class="tarjeta-producto__stock ${sinStock ? "agotado" : ""}">
           ${sinStock ? "Agotado" : `Disponible · ${p.presentacion}`}
         </span>
+        <span class="tarjeta-producto__vermas">Ver detalles →</span>
       </div>
     `;
     gridEl.appendChild(tarjeta);
@@ -123,8 +146,8 @@ function renderProductos(productos: Producto[]) {
 }
 
 async function filtrarPorNecesidad(necesidad: NecesidadId | null) {
-  necesidadActiva = necesidad;
-  renderChipsFiltro();
+  categoriaActiva = null;
+  renderChipsCategoria();
 
   if (inputBusqueda) inputBusqueda.value = "";
 
@@ -151,22 +174,28 @@ async function filtrarPorNecesidad(necesidad: NecesidadId | null) {
 }
 
 inputBusqueda?.addEventListener("input", () => {
-  necesidadActiva = null;
-  renderChipsFiltro();
+  categoriaActiva = null;
+  renderChipsCategoria();
   const resultado = buscarProductos(todosLosProductos, inputBusqueda.value);
   tituloCatalogo.textContent = inputBusqueda.value
     ? `Resultados para "${inputBusqueda.value}"`
     : "Nuestros productos";
   subtituloCatalogo.textContent = inputBusqueda.value
     ? `${resultado.length} producto(s) encontrado(s).`
-    : "Explora todo el catálogo o filtra por lo que buscas mejorar.";
+    : "Explora todo el catálogo o filtra por categoría.";
   renderProductos(resultado);
+
+  if (inputBusqueda.value.trim().length === 1) {
+    document
+      .getElementById("catalogo")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
 
 async function iniciar() {
-  renderChipsFiltro();
   gridEl.innerHTML = `<div class="spinner"></div>`;
   todosLosProductos = await obtenerTodosLosProductos();
+  renderChipsCategoria();
   renderProductos(todosLosProductos);
 }
 

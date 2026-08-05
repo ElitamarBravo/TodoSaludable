@@ -30,7 +30,8 @@ export async function renderizarListaHospedajes(
         <a href="/hotel.html?id=${h.id}" style="text-decoration:none">
           <h3 class="tarjeta-hospedaje__nombre">${h.nombre}</h3>
         </a>
-        <p class="tarjeta-hospedaje__desc">${h.descripcion}</p>
+       <p class="tarjeta-hospedaje__desc">${h.descripcion}</p>
+        <span class="tarjeta-producto__vermas">Ver galería y detalles →</span>
         <button class="boton boton--whatsapp" data-accion="disponibilidad">
           Consultar disponibilidad
         </button>

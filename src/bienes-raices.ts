@@ -31,9 +31,10 @@ async function iniciar() {
         <span class="tarjeta-producto__categoria">📍 ${lote.ubicacion}</span>
         <h3 class="tarjeta-producto__nombre">${lote.nombre}</h3>
         <span class="tarjeta-producto__precio">${formatearPrecio(lote.precio)}</span>
-        <span class="tarjeta-producto__stock ${lote.disponible ? "" : "agotado"}">
+              <span class="tarjeta-producto__stock ${lote.disponible ? "" : "agotado"}">
           ${lote.disponible ? "Disponible" : "No disponible"}
         </span>
+        <span class="tarjeta-producto__vermas">Ver detalles →</span>
       </div>
     `;
     grid.appendChild(tarjeta);
