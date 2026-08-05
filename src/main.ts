@@ -3,7 +3,6 @@ import { inicializarSidebar } from "@/components/sidebar";
 import { supabaseConfigurado, urlPublicaStorage, BUCKET_PERFIL } from "@/lib/supabaseClient";
 import { NECESIDADES } from "@/lib/necesidades";
 import { obtenerTodosLosProductos, obtenerProductosPorNecesidad, buscarProductos } from "@/lib/productos";
-import { formatearPrecio } from "@/lib/necesidades";
 import { carrito } from "@/lib/carrito";
 import { pedirEvaluacionPersonalizada } from "@/lib/whatsapp";
 import { inicializarCarritoUI } from "@/components/carritoUI";
