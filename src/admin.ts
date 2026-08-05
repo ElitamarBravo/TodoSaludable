@@ -362,7 +362,6 @@ async function eliminarProducto(p: Producto) {
 const formHotel = document.getElementById("form-hotel") as HTMLFormElement;
 const botonNuevoHotel = document.getElementById("boton-nuevo-hotel")!;
 const cuerpoTablaHoteles = document.getElementById("cuerpo-tabla-hoteles")!;
-const listaFotosHotel = document.getElementById("hotel-fotos-lista")!;
 const camposHotel = {
   id: document.getElementById("hotel-id") as HTMLInputElement,
   nombre: document.getElementById("hotel-nombre") as HTMLInputElement,
