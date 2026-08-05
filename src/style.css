@@ -420,7 +420,12 @@ h1, h2, h3, h4 {
   background: var(--beige);
   overflow: hidden;
 }
-
+.tarjeta-producto__imagen,
+.tarjeta-producto__imagen img,
+.tarjeta-producto__cuerpo,
+.tarjeta-producto__cuerpo * {
+  pointer-events: none;
+}
 .tarjeta-producto__imagen img {
   width: 100%;
   height: 100%;
