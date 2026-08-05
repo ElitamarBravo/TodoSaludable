@@ -137,37 +137,55 @@ h1, h2, h3, h4 {
 }
 @media (max-width: 768px) {
 
-  .encabezado__barra {
-    flex-wrap: wrap;
-    padding: 12px;
-    gap: 12px;
+  .encabezado__barra{
+    display:grid;
+    grid-template-columns:1fr auto;
+    grid-template-areas:
+      "logo carrito"
+      "buscador buscador";
+    gap:12px;
+    padding:12px;
   }
 
-  .marca {
-    width: auto;
-    flex: 1;
+  .marca{
+    grid-area:logo;
+    min-width:0;
   }
 
-  .acciones-header {
-    margin-left: auto;
+  .acciones-header{
+    grid-area:carrito;
   }
 
-  .buscador-header {
-    order: 3;
-    width: 100%;
-    max-width: none;
-    flex: 0 0 100%;
+  .buscador-header{
+    grid-area:buscador;
+    width:100%;
+    max-width:100%;
+    min-width:0;
   }
 
-  .boton-carrito__texto {
-    display: none;
+  .buscador-header input{
+    width:100%;
+    min-width:0;
   }
 
-  .boton-carrito {
-    padding: 10px;
-    min-width: 46px;
-    justify-content: center;
+  .boton-carrito__texto{
+    display:none;
   }
+
+  .boton-carrito{
+    padding:10px;
+    min-width:46px;
+  }
+} 
+*,
+*::before,
+*::after{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    overflow-x:hidden;
 }
 .boton-carrito {
   position: relative;
