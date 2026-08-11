@@ -185,7 +185,7 @@ inputBusqueda?.addEventListener("input", () => {
     : "Explora todo el catálogo o filtra por categoría.";
   renderProductos(resultado);
 
-  if (inputBusqueda.value.trim().length === 1) {
+  if (inputBusqueda.value.trim().length > 0 ) {
     document
       .getElementById("catalogo")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });

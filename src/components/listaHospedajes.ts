@@ -19,18 +19,17 @@ export async function renderizarListaHospedajes(
 
   contenedor.innerHTML = "";
   hospedajes.forEach((h) => {
-    const tarjeta = document.createElement("div");
+     const tarjeta = document.createElement("a");
     tarjeta.className = "tarjeta-hospedaje";
+    tarjeta.href = `/hotel.html?id=${h.id}`;
     tarjeta.innerHTML = `
-      <a href="/hotel.html?id=${h.id}" class="tarjeta-hospedaje__imagen">
+      <div class="tarjeta-hospedaje__imagen">
         <img src="${h.fotos[0] ?? ""}" alt="${h.nombre}" loading="lazy" />
-      </a>
+      </div>
       <div class="tarjeta-hospedaje__cuerpo">
         <span class="tarjeta-hospedaje__ubicacion">📍 ${h.ubicacion}</span>
-        <a href="/hotel.html?id=${h.id}" style="text-decoration:none">
-          <h3 class="tarjeta-hospedaje__nombre">${h.nombre}</h3>
-        </a>
-       <p class="tarjeta-hospedaje__desc">${h.descripcion}</p>
+        <h3 class="tarjeta-hospedaje__nombre">${h.nombre}</h3>
+        <p class="tarjeta-hospedaje__desc">${h.descripcion}</p>
         <span class="tarjeta-producto__vermas">Ver galería y detalles →</span>
         <button class="boton boton--whatsapp" data-accion="disponibilidad">
           Consultar disponibilidad
@@ -38,9 +37,13 @@ export async function renderizarListaHospedajes(
       </div>
     `;
 
-    tarjeta
+  tarjeta
       .querySelector('[data-accion="disponibilidad"]')
-      ?.addEventListener("click", () => abrirModalDisponibilidad(h.nombre));
+      ?.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        evento.stopPropagation();
+        abrirModalDisponibilidad(h.nombre);
+      });
 
     contenedor.appendChild(tarjeta);
   });

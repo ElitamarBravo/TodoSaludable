@@ -135,48 +135,14 @@ h1, h2, h3, h4 {
   align-items: center;
   gap: 14px;
 }
-@media (max-width: 768px) {
-
-  .encabezado__barra{
-    display:grid;
-    grid-template-columns:1fr auto;
-    grid-template-areas:
-      "logo carrito"
-      "buscador buscador";
-    gap:12px;
-    padding:12px;
+@media (max-width: 640px) {
+  .rueda-necesidades{
+    grid-template-columns: 1fr 1fr;
   }
-
-  .marca{
-    grid-area:logo;
-    min-width:0;
+  .marca__texto{
+    display: none;
   }
-
-  .acciones-header{
-    grid-area:carrito;
-  }
-
-  .buscador-header{
-    grid-area:buscador;
-    width:100%;
-    max-width:100%;
-    min-width:0;
-  }
-
-  .buscador-header input{
-    width:100%;
-    min-width:0;
-  }
-
-  .boton-carrito__texto{
-    display:none;
-  }
-
-  .boton-carrito{
-    padding:10px;
-    min-width:46px;
-  }
-} 
+}
 *,
 *::before,
 *::after{
