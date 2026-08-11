@@ -11,23 +11,23 @@
   <body class="con-sidebar">
     <div id="sidebar-mount"></div>
     <header class="encabezado">
-      <div class="encabezado__barra">
+           <div class="encabezado__barra">
         <a href="/" class="marca">
           <span class="marca__hoja">🌿</span>
-          <span>Todo Saludable con María Isabel</span>
+          <span class="marca__texto">Todo Saludable<span class="marca__extra"> con María Isabel</span></span>
         </a>
         <div class="buscador-header">
           <span aria-hidden="true">🔍</span>
           <input
             type="search"
-            placeholder="Buscar productos..."
-            aria-label="Buscar productos"
+            placeholder="Buscar..."
+            aria-label="Buscar"
             onfocus="window.location.href='/'"
           />
         </div>
         <div class="acciones-header">
           <button id="boton-abrir-carrito" class="boton-carrito" aria-haspopup="dialog">
-            🛒 Carrito
+            🛒 <span class="boton-carrito__texto">Carrito</span>
             <span id="contador-carrito" class="boton-carrito__contador">0</span>
           </button>
         </div>

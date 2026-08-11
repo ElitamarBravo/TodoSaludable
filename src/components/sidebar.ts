@@ -19,6 +19,11 @@ function esRutaActiva(href: string): boolean {
 }
 
 export function inicializarSidebar() {
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.addEventListener("controllerchange", ()=>{
+      window.location.reload();
+    });
+  }
   const mount = document.getElementById("sidebar-mount");
   if (!mount) return;
 
