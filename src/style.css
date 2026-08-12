@@ -1165,11 +1165,16 @@ body.con-sidebar {
   color: var(--verde-bosque);
 }
 
-.tarjeta-hospedaje__desc {
+ .tarjeta-hospedaje__desc {
   font-size: 0.85rem;
   color: var(--texto-suave);
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+ 
 
 .galeria-simple {
   display: grid;
